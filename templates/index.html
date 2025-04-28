@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Générateur de Mot de Passe 🔒</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='style.css') }}"
+        />
+    </head>
+    <body>
+        <div class="container">
+            <h1>🔒 Secure Password Generator 🔒</h1>
+            <h2>Votre mot de passe :</h2>
+            <p><strong>{{ password }}</strong></p>
+            <p><a href="/">🔄 Générer un autre</a></p>
+        </div>
+    </body>
+</html>
