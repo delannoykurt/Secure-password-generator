@@ -1,4 +1,3 @@
-
 # 🔒 Générateur de Mots de Passe — Projet Python
 
 ## 📚 Présentation
