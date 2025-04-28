@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 import random
 import string
 
@@ -21,10 +21,13 @@ def generate_password(length):
 # --- Routes Flask ---
 @app.route('/')
 def home():
-    return """
-    <h1>🔒 Secure Password Generator 🔒</h1>
-    <p>Utilisez l'URL : /generate?length=12 pour générer un mot de passe.</p>
-    """
+    try:
+        length = int(request.args.get('length', 12))
+        password = generate_password(length)
+    except ValueError:
+        password = "Erreur de paramètre."
+
+    return render_template('index.html', password=password)
 
 @app.route('/generate')
 def generate():
@@ -36,4 +39,4 @@ def generate():
         return "<p>❗ Veuillez fournir un nombre valide pour la longueur.</p>"
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
