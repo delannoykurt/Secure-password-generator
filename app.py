@@ -2,41 +2,55 @@ from flask import Flask, request, render_template
 import random
 import string
 
+DEFAULT_SIZE_PASS = 64
+MIN_SIZE_REQUIRED = 8
+PORT = 5088
+
 app = Flask(__name__)
 
-# --- Ta fonction existante, exactement comme tu l'as faite ---
-def generate_password(length):
-    if length < 8:
+def generate_password(length, use_digits=True, use_symbols=True, use_uppercase=True):
+    if length < MIN_SIZE_REQUIRED:
         return "❗ La longueur minimale requise est de 8 caractères."
 
-    letters = string.ascii_letters
-    numbers = string.digits
-    symbol  = string.punctuation
+    letters = string.ascii_lowercase  # de base : minuscules
 
-    all_characters = letters + numbers + symbol
+    if use_uppercase:
+        letters += string.ascii_uppercase
+    if use_digits:
+        letters += string.digits
+    if use_symbols:
+        letters += string.punctuation
 
-    password = ''.join(random.choice(all_characters) for _ in range(length))
+    if not letters:
+        return "❗ Aucun caractère sélectionné."
+
+    password = ''.join(random.choice(letters) for _ in range(length))
     return password
 
-# --- Routes Flask ---
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    try:
-        length = int(request.args.get('length', 12))
-        password = generate_password(length)
-    except ValueError:
-        password = "Erreur de paramètre."
+    password = None
+    length = DEFAULT_SIZE_PASS
+    use_digits = True
+    use_symbols = True
+    use_uppercase = True
 
-    return render_template('index.html', password=password)
+    if request.method == 'POST':
+        try:
+            length = int(request.form.get('length', DEFAULT_SIZE_PASS))
+            use_digits = 'use_digits' in request.form
+            use_symbols = 'use_symbols' in request.form
+            use_uppercase = 'use_uppercase' in request.form
+            password = generate_password(length, use_digits, use_symbols, use_uppercase)
+        except (ValueError, TypeError):
+            password = "Erreur : valeur incorrecte."
 
-@app.route('/generate')
-def generate():
-    try:
-        length = int(request.args.get('length', 12))
-        password = generate_password(length)
-        return f"<h2>Votre mot de passe :</h2><p><strong>{password}</strong></p>"
-    except ValueError:
-        return "<p>❗ Veuillez fournir un nombre valide pour la longueur.</p>"
+    return render_template('index.html',
+                           password=password,
+                           length=length,
+                           use_digits=use_digits,
+                           use_symbols=use_symbols,
+                           use_uppercase=use_uppercase)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=PORT, debug=True)

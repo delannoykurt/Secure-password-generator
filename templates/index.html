@@ -10,10 +10,79 @@
     </head>
     <body>
         <div class="container">
-            <h1>🔒 Secure Password Generator 🔒</h1>
+            <h1>🔒 Générateur de Mot de Passe 🔒</h1>
+
+            <form method="post">
+                <label for="length">Choisissez la longueur :</label><br />
+                <input
+                    type="number"
+                    id="length"
+                    name="length"
+                    min="8"
+                    required
+                /><br /><br />
+
+                <label
+                    ><input type="checkbox" name="use_digits" checked /> Inclure
+                    des chiffres (0-9)</label
+                ><br />
+                <label
+                    ><input type="checkbox" name="use_symbols" checked />
+                    Inclure des symboles (!@#)</label
+                ><br />
+                <label
+                    ><input type="checkbox" name="use_uppercase" checked />
+                    Inclure des majuscules (A-Z)</label
+                ><br /><br />
+
+                <button type="submit">Générer</button>
+            </form>
+
+            {% if password %}
             <h2>Votre mot de passe :</h2>
-            <p><strong>{{ password }}</strong></p>
-            <p><a href="/">🔄 Générer un autre</a></p>
+            <div id="displayField"><strong>{{ password }}</strong></div>
+            <input
+                type="text"
+                id="passwordField"
+                value="{{ password }}"
+                readonly
+                style="position: absolute; left: -9999px"
+            />
+            <button onclick="copierMotDePasse()">📋 Copier</button>
+
+            <br /><br />
+
+            <form method="post">
+                <input type="hidden" name="length" value="{{ length }}" />
+                <input
+                    type="hidden"
+                    name="use_digits"
+                    value="{{ 'on' if use_digits else '' }}"
+                />
+                <input
+                    type="hidden"
+                    name="use_symbols"
+                    value="{{ 'on' if use_symbols else '' }}"
+                />
+                <input
+                    type="hidden"
+                    name="use_uppercase"
+                    value="{{ 'on' if use_uppercase else '' }}"
+                />
+                <button type="submit">🔄 Générer un autre</button>
+            </form>
+            <script>
+                function copierMotDePasse() {
+                    var passwordField =
+                        document.getElementById("passwordField");
+                    passwordField.select();
+                    passwordField.setSelectionRange(0, 99999); // Pour être compatible mobile
+                    document.execCommand("copy");
+
+                    alert("✅ Mot de passe copié dans le presse-papiers !");
+                }
+            </script>
+            {% endif %}
         </div>
     </body>
 </html>

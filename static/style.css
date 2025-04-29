@@ -1,31 +1,91 @@
+/* Style général */
 body {
-    background-color: #f5f5f5;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Arial, sans-serif;
+    background-color: #e8e8e8;
     margin: 0;
     padding: 0;
-    text-align: center;
-}
-
-h1 {
-    color: #333;
-    margin-top: 50px;
-}
-
-p,
-h2 {
-    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
 .container {
-    margin-top: 80px;
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    display: inline-block;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
 }
 
-strong {
-    color: #0066cc;
-    font-size: 20px;
+/* Titre */
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+/* Formulaires */
+form {
+    margin-top: 1rem;
+}
+
+/* Input fields */
+input[type="number"],
+input[type="text"] {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.6rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* Limiter visuellement le champ mot de passe */
+#passwordField {
+    overflow-x: auto;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* Boutons */
+button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Checkbox labels */
+label {
+    display: block;
+    text-align: left;
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+#displayField {
+    max-width: 100%;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 0.7rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-family: monospace;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow-x: auto;
+    text-overflow: ellipsis;
 }
